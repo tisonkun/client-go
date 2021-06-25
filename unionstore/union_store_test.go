@@ -38,11 +38,11 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	tikverr "github.com/tikv/client-go/v2/error"
-	"github.com/tikv/client-go/v2/util/testleak"
+	"go.uber.org/goleak"
 )
 
 func TestUnionStoreGetSet(t *testing.T) {
-	defer testleak.AfterTestT(t)()
+	defer goleak.VerifyNone(t)
 	assert := assert.New(t)
 	store := newMemDB()
 	us := NewUnionStore(&mockSnapshot{store})
@@ -62,7 +62,7 @@ func TestUnionStoreGetSet(t *testing.T) {
 }
 
 func TestUnionStoreDelete(t *testing.T) {
-	defer testleak.AfterTestT(t)()
+	defer goleak.VerifyNone(t)
 	assert := assert.New(t)
 	store := newMemDB()
 	us := NewUnionStore(&mockSnapshot{store})
@@ -82,7 +82,7 @@ func TestUnionStoreDelete(t *testing.T) {
 }
 
 func TestUnionStoreSeek(t *testing.T) {
-	defer testleak.AfterTestT(t)()
+	defer goleak.VerifyNone(t)
 	assert := assert.New(t)
 	store := newMemDB()
 	us := NewUnionStore(&mockSnapshot{store})
@@ -116,7 +116,7 @@ func TestUnionStoreSeek(t *testing.T) {
 }
 
 func TestUnionStoreIterReverse(t *testing.T) {
-	defer testleak.AfterTestT(t)()
+	defer goleak.VerifyNone(t)
 	assert := assert.New(t)
 	store := newMemDB()
 	us := NewUnionStore(&mockSnapshot{store})

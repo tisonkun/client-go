@@ -43,7 +43,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"github.com/tikv/client-go/v2/kv"
-	"github.com/tikv/client-go/v2/util/testleak"
+	"go.uber.org/goleak"
 )
 
 type KeyFlags = kv.KeyFlags
@@ -699,14 +699,14 @@ func mustGet(t *testing.T, buffer *MemDB) {
 }
 
 func TestKVGetSet(t *testing.T) {
-	defer testleak.AfterTestT(t)()
+	defer goleak.VerifyNone(t)
 	buffer := newMemDB()
 	insertData(t, buffer)
 	mustGet(t, buffer)
 }
 
 func TestNewIterator(t *testing.T) {
-	defer testleak.AfterTestT(t)()
+	defer goleak.VerifyNone(t)
 	assert := assert.New(t)
 	buffer := newMemDB()
 	// should be invalid
@@ -736,7 +736,7 @@ func NextUntil(it Iterator, fn FnKeyCmp) error {
 }
 
 func TestIterNextUntil(t *testing.T) {
-	defer testleak.AfterTestT(t)()
+	defer goleak.VerifyNone(t)
 	assert := assert.New(t)
 	buffer := newMemDB()
 	insertData(t, buffer)
@@ -752,7 +752,7 @@ func TestIterNextUntil(t *testing.T) {
 }
 
 func TestBasicNewIterator(t *testing.T) {
-	defer testleak.AfterTestT(t)()
+	defer goleak.VerifyNone(t)
 	assert := assert.New(t)
 	buffer := newMemDB()
 	it, err := buffer.Iter([]byte("2"), nil)
@@ -761,7 +761,7 @@ func TestBasicNewIterator(t *testing.T) {
 }
 
 func TestNewIteratorMin(t *testing.T) {
-	defer testleak.AfterTestT(t)()
+	defer goleak.VerifyNone(t)
 	assert := assert.New(t)
 	kvs := []struct {
 		key   string
